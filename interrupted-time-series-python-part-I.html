@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Interrupted Time Series (ITS) in Python | xboard.dev</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Interrupted Time Series (ITS) in Python" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Interrupted Time Series (ITS) analysis using Python and statsmodels" />
+<meta property="og:description" content="Interrupted Time Series (ITS) analysis using Python and statsmodels" />
+<link rel="canonical" href="https://www.xboard.dev/fastpages-blog/interrupted-time-series-python-part-I" />
+<meta property="og:url" content="https://www.xboard.dev/fastpages-blog/interrupted-time-series-python-part-I" />
+<meta property="og:site_name" content="xboard.dev" />
+<meta property="og:image" content="https://www.xboard.dev/assets/images/its/its-card2.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-01-01T00:00:00-06:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://www.xboard.dev/assets/images/its/its-card2.jpg" />
+<meta property="twitter:title" content="Interrupted Time Series (ITS) in Python" />
+<script type="application/ld+json">
+{"url":"https://www.xboard.dev/fastpages-blog/interrupted-time-series-python-part-I","@type":"BlogPosting","headline":"Interrupted Time Series (ITS) in Python","dateModified":"2022-01-01T00:00:00-06:00","datePublished":"2022-01-01T00:00:00-06:00","image":"https://www.xboard.dev/assets/images/its/its-card2.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.xboard.dev/fastpages-blog/interrupted-time-series-python-part-I"},"description":"Interrupted Time Series (ITS) analysis using Python and statsmodels","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/fastpages-blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://www.xboard.dev/fastpages-blog/feed.xml" title="xboard.dev" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5FL5R0TTQ6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5FL5R0TTQ6');
+</script>
+<script src="/fastpages-blog/assets/js/myevents.min.js" async></script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/fastpages-blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/fastpages-blog/">xboard.dev</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/fastpages-blog/about/">About Me</a><a class="page-link" href="/fastpages-blog/search/">Search</a><a class="page-link" href="/fastpages-blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Interrupted Time Series (ITS) in Python</h1><p class="page-description">Interrupted Time Series (ITS) analysis using Python and statsmodels</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-01-01T00:00:00-06:00" itemprop="datePublished">
+        Jan 1, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      14 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/fastpages-blog/categories/#data-science">data-science</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#motivation">Motivation</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#when-ab-test-is-not-an-option">When A/B test is not an option</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#quasi-experiments">Quasi Experiments</a></li>
+<li class="toc-entry toc-h2"><a href="#interrupted-time-series-its">Interrupted Time Series (ITS)</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#counterfactual">Counterfactual</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#a-practical-example">A practical example</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#dataset">Dataset</a></li>
+<li class="toc-entry toc-h3"><a href="#dataset-preparation">Dataset preparation</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#naive-solution">Naive solution</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#problems-with-naive-approach">Problems with naive approach</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#lets-first-check-for-the-normality-of-residuals">Let’s first check for the normality of residuals:</a></li>
+<li class="toc-entry toc-h4"><a href="#checking-independence-of-observations">Checking independence of observations:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#autoregressive-model-solution">Autoregressive model solution</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#autocorrelation">Autocorrelation</a></li>
+<li class="toc-entry toc-h4"><a href="#partial-autocorrelation">Partial Autocorrelation</a></li>
+<li class="toc-entry toc-h3"><a href="#model-selection">Model selection</a></li>
+<li class="toc-entry toc-h3"><a href="#arima">ARIMA</a></li>
+<li class="toc-entry toc-h3"><a href="#arima-residual-analysis">ARIMA residual analysis</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#summary">Summary</a></li>
+<li class="toc-entry toc-h2"><a href="#references">References</a></li>
+</ul>
+<picture>
+    <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/its-card.webp" class="lazyload" alt="Interrupted Time Series Analysis example" width="100%"></source>
+    <img src="/fastpages-blog/images/posts/its/its-card.png" alt="Interrupted Time Series Analysis example" width="100%">
+</picture>
+
+<h2 id="motivation">
+<a class="anchor" href="#motivation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Motivation</h2>
+
+<h3 id="when-ab-test-is-not-an-option">
+<a class="anchor" href="#when-ab-test-is-not-an-option" aria-hidden="true"><span class="octicon octicon-link"></span></a>When A/B test is not an option</h3>
+
+<p>The gold standard for statistically asserting the effectiveness of an intervention is the randomized controlled experiment and its simplified online variant: the A/B test.</p>
+
+<hr>
+
+<p>📝 During an A/B test there are two almost identical versions of a product, simultaneously running, that only differ by the hypothesis you want to test ( i.e can a red call to action button convert more than a blue one? ). Users are <strong>randomly</strong> chosen to experience one (and only one) of the two versions while the experiment is active.</p>
+
+<hr>
+
+<p>They are easy to understand, easy to setup (great free <a href="https://optimize.google.com/optimize/home/">tools</a> easily available) and when correctly designed they rule out any covariate differences between the groups.</p>
+
+<p>However, sometimes it’s just not possible to set up an A/B test:</p>
+
+<ul>
+  <li>
+    <p>Technical difficulties. Sometimes a change is so widespread and complex that it would be technically impossible to keep two different versions running simultaneously.</p>
+  </li>
+  <li>
+    <p>Business strategy. A new feature rollout will be available first to some countries and later for others.</p>
+  </li>
+  <li>
+    <p>Ethical concerns. Having a subset of customers having access to a feature or bug fix that gives them a competitive advantage over others that don’t.</p>
+  </li>
+  <li>
+    <p>Legal or regulatory requirements. A change in regulations becomes mandatory ( i.e. GPDR compliance ) and should be applied to all your customers of a given country at the same time.</p>
+  </li>
+  <li>
+    <p>Temporal infeasibility. You want to analyze an event that has already happened ( i.e. How last <a href="https://moz.com/google-algorithm-change">Google’s search algorithm update</a> impacted your sales funnel? ).</p>
+  </li>
+</ul>
+
+<h2 id="quasi-experiments">
+<a class="anchor" href="#quasi-experiments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quasi Experiments</h2>
+
+<picture>
+    <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/the-gold-standard-meme.webp" class="lazyload" alt="gold standard meme" width="67%"></source>
+    <img data-src="/fastpages-blog/images/posts/its/the-gold-standard-meme.jpg" class="lazyload" alt="gold standard meme" width="67%">
+</picture>
+
+<p>If you can’t do an A/B test then the second to best alternative are quasi experiments <a href="#ref-1">[1]</a>.</p>
+
+<p>In a quasi experiment, your treatment and control group are not divided by a completely random process but by a natural process (i.e. time, location, etc) therefore there is a much larger chance for imbalance due to skewness and heterogeneous differences. The results of a quasi-experiment won’t be as precise as an A/B, but if carefully conducted could be considered close enough to compute estimates.</p>
+
+<p>There are some scenarios, like some described in the previous section, where having a control group in parallel to a test group is just not possible, and this is when Interrupted Times Series comes in very handy.</p>
+
+<h2 id="interrupted-time-series-its">
+<a class="anchor" href="#interrupted-time-series-its" aria-hidden="true"><span class="octicon octicon-link"></span></a>Interrupted Time Series (ITS)</h2>
+
+<p>Interrupted time series (ITS) is a method of statistical analysis involving tracking a period before and after a intervention at a known point in time to assess the intervention’s effects <em>within a single group/population</em>. The time series refers to the data over the period, while the interruption is the intervention, which is a controlled external influence or set of influences. Effects of the intervention are evaluated by changes in the level and slope of the time series and statistical significance of the intervention parameters<a href="#ref-2">[2]</a>. The more observations you have before and after the intervention, the more robust your model will be (typically). Because the evaluation is based on observing a single population over time, the ITS design is free from problems due to between-group difference but are susceptible to time-varying confounders like other interventions occurring around the time of the intervention that may also affect the outcome<a href="#ref-3">[3]</a>.</p>
+
+<picture>
+    <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/its1.webp" class="lazyload" alt="Interrupted Time Series analysis example" width="100%" style="box-shadow: 5px 5px 10px grey;"></source>
+    <img data-src="/fastpages-blog/images/posts/its/its1.jpg" class="lazyload" alt="Interrupted Time Series analysis example" width="100%" style="box-shadow: 5px 5px 10px grey;">
+</picture>
+
+<hr>
+
+<p>👍 <span style="text-decoration: underline">Strengths of Interrupted Time Series</span> include the ability to control for secular trends
+in the data (unlike a 2-period before-and-after $t$-test), ability to
+evaluate outcomes using population-level data, clear graphical
+presentation of results, ease of conducting stratified analyses,
+and ability to evaluate both intended and unintended consequences of interventions.</p>
+
+<p>👎 <span style="text-decoration: underline">Limitations of Interrupted Time Series</span> include the need
+for a minimum of 8 time periods before and 8 after an intervention to evaluate changes statistically, difficulty in analyzing the
+independent impact of separate components of a program that
+are implemented close together in time, and existence of a suitable control population.</p>
+
+<hr>
+
+<p>In mathematical terms, it means that the time series equation $(1)$ includes four key coefficients:</p>
+
+<p><span style="display: table; margin: 0 auto;">
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><msub><mi>b</mi><mn>0</mn></msub><mo>+</mo><msub><mi>b</mi><mn>1</mn></msub><mi>T</mi><mo>+</mo><msub><mi>b</mi><mn>2</mn></msub><mi>D</mi><mo>+</mo><msub><mi>b</mi><mn>3</mn></msub><mi>P</mi><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">Y = b_0 + b_1T + b_2D + b_3P + \epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">ϵ</span></span></span></span>
+</span></p>
+
+<p>Where:</p>
+
+<p>$Y$ is the outcome variable;</p>
+
+<p>$T$ is a continuous variable which indicates the time passed from start of the observational period;<br></p>
+
+<p>$D$ is a dummy variable indicating observation collected before ($D=0$) or after ($D=1$) the intervention;<br></p>
+
+<p>$P$ is a continuous variable indicating time passed since the intervention has occurred (before intervention has occurred $P$is equal to $0$);<br></p>
+
+<p>With $\epsilon$ representing a zero centered gaussian random error.</p>
+
+<h3 id="counterfactual">
+<a class="anchor" href="#counterfactual" aria-hidden="true"><span class="octicon octicon-link"></span></a>Counterfactual</h3>
+
+<picture>
+    <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/matrix-red-blue-pill.webp" class="lazyload" alt="matrix blue/red pill choice of reality" width="100%"></source>
+    <img data-src="/fastpages-blog/images/posts/its/matrix-red-blue-pill.png" class="lazyload" alt="matrix blue/red pill choice of reality" width="100%">
+</picture>
+<figcaption><i>What would have happened had Neo chosen the blue pill?</i></figcaption>
+
+<p>In an ITS it is important to understand the counterfactual. The counterfactual refers to what it would have occurred to Y, had the policy intervention not happened.</p>
+
+<hr>
+
+<p>📝Counterfactuals are simply ways of comparing what happens given a change, versus what should have happened had some change not occurred in the first place.</p>
+
+<hr>
+
+<p>In a randomized trial or A/B test we know the counterfactual average outcome because the experiment withheld the intervention from the control group (which by randomization is somewhat the same as the intervention group). A critical assumption in ITS is that the outcome of interest trend would remain unchanged in the absence of intervention.</p>
+
+<h2 id="a-practical-example">
+<a class="anchor" href="#a-practical-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>A practical example</h2>
+
+<p>Bob runs a large and successful blog on personal finance. During a webinar he learns that making his web content load faster could reduce its <a href="https://en.wikipedia.org/wiki/Bounce_rate">bounce rate</a> and therefore decides to sign up for a <a href="https://en.wikipedia.org/wiki/Content_delivery_network">CDN</a> service. It’s been 6 months since he added a CDN to his blog and he wants to know if the investiment he did reduced the bounce rate.</p>
+
+<h3 id="dataset">
+<a class="anchor" href="#dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset</h3>
+
+<p>Bob provides us with <a href="/assets/data/its/raw_data.csv">💾 24 weeks of data</a> before adding the CDN and 24 weeks after it (intervention). Therefore, weeks 1 to 24 have a bouncing rate before intervention and weeks 25 to 48 after it.</p>
+
+<p align="center">
+    <picture>
+        <img data-src="/fastpages-blog/images/posts/its/data_viz1.svg" class="lazyload" alt="ploting data collected" width="100%" style="box-shadow: 5px 5px 10px grey;">
+    </picture>
+</p>
+
+<p>Visually, it looks like after enabling the CDN the bounce rate decreased, but by how much, and does it have statistical significance? To answer this question using interrupted time series analysis, we first need to prepare our data.</p>
+
+<h3 id="dataset-preparation">
+<a class="anchor" href="#dataset-preparation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset preparation</h3>
+
+<p>Using equation \eqref{eq:its} notation we <a href="/assets/data/its/enriched_data.csv">💾 enrich this data</a> with values for columns $D$ ($0$ = before intervention, $1$ after) and $P$ (number of weeks since intervention started):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Bouncing rate<br>(Y)</th>
+      <th style="text-align: center">Week <br>(T)</th>
+      <th style="text-align: center">Intervention<br>(D)</th>
+      <th style="text-align: center">Intervention week<br>(P)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">12.92</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">0</td>
+      <td style="text-align: center">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">13.03</td>
+      <td style="text-align: center">2</td>
+      <td style="text-align: center">0</td>
+      <td style="text-align: center">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">13.06</td>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">0</td>
+      <td style="text-align: center">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">13.17</td>
+      <td style="text-align: center">4</td>
+      <td style="text-align: center">0</td>
+      <td style="text-align: center">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">…</td>
+      <td style="text-align: center">…</td>
+      <td style="text-align: center">…</td>
+      <td style="text-align: center">…</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">12.04</td>
+      <td style="text-align: center">45</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">21</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">12.45</td>
+      <td style="text-align: center">46</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">22</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">12.74</td>
+      <td style="text-align: center">47</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">23</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">12.57</td>
+      <td style="text-align: center">48</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">24</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="naive-solution">
+<a class="anchor" href="#naive-solution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Naive solution</h2>
+
+<p>Let’s implement an ordinary least squares (OLS) regression using <code class="language-plaintext highlighter-rouge">statsmodels</code> to measure the impact of our intervention:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="n">sm</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="n">smf</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"enriched_data.csv"</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="p">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s">'Y ~ T + D + P'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">summary</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p><span id="ols-output">With output:</span></p>
+
+<pre>
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      Y   R-squared:                       0.666
+Model:                            OLS   Adj. R-squared:                  0.643
+Method:                 Least Squares   F-statistic:                     29.18
+Date:                Tue, 28 Dec 2021   Prob (F-statistic):           1.52e-10
+Time:                        14:33:50   Log-Likelihood:                 4.8860
+No. Observations:                  48   AIC:                            -1.772
+Df Residuals:                      44   BIC:                             5.713
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept     12.9100      0.096    134.225      0.000      12.716      13.104
+T              0.0129      0.007      1.920      0.061      -0.001       0.026
+D             -0.5202      0.132     -3.942      0.000      -0.786      -0.254
+P             -0.0297      0.010     -3.115      0.003      -0.049      -0.010
+==============================================================================
+Omnibus:                        3.137   Durbin-Watson:                   0.665
+Prob(Omnibus):                  0.208   Jarque-Bera (JB):                1.995
+Skew:                           0.279   Prob(JB):                        0.369
+Kurtosis:                       2.172   Cond. No.                         125.
+==============================================================================
+
+</pre>
+
+<p>The model estimates that the bounce rate decreased 🔻 0.52% and this effect
+is statistically significant ($P&gt;|t|$ is virtually zero).</p>
+
+<p>It is also noteworth that the model estimates a small (on average 🔻 0.0297%) but with statistical significance trend of a decrease in bounce rate each week after intervention, which is unexpected since the CDN serves the whole website just a few hours after activation.</p>
+
+<p>The figure below depicts how the model fits before and after intervention and how it project a counterfactual would be:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">start</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="n">end</span> <span class="o">=</span> <span class="mi">48</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="n">res</span><span class="p">.</span><span class="n">params</span>
+
+<span class="c1"># Get model predictions and 95% confidence interval
+</span><span class="n">predictions</span> <span class="o">=</span> <span class="n">res</span><span class="p">.</span><span class="n">get_prediction</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">summary</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">.</span><span class="n">summary_frame</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+
+<span class="c1"># mean predictions
+</span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">.</span><span class="n">predicted_mean</span>
+
+<span class="c1"># countefactual assumes no interventions
+</span><span class="n">cf_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">cf_df</span><span class="p">[</span><span class="s">"D"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">cf_df</span><span class="p">[</span><span class="s">"P"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="c1"># counter-factual predictions
+</span><span class="n">cf</span> <span class="o">=</span> <span class="n">res</span><span class="p">.</span><span class="n">get_prediction</span><span class="p">(</span><span class="n">cf_df</span><span class="p">).</span><span class="n">summary_frame</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+
+<span class="c1"># Plotting
+</span><span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">use</span><span class="p">(</span><span class="s">'seaborn-whitegrid'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Plot bounce rate data
+</span><span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">"T"</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s">"Y"</span><span class="p">],</span> <span class="n">facecolors</span><span class="o">=</span><span class="s">'none'</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s">'steelblue'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"bounce rate data"</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Plot model mean bounce rate prediction
+</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">"T"</span><span class="p">][:</span><span class="n">start</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">[:</span><span class="n">start</span><span class="p">],</span> <span class="s">'b-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"model prediction"</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">"T"</span><span class="p">][</span><span class="n">start</span><span class="p">:],</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">start</span><span class="p">:],</span> <span class="s">'b-'</span><span class="p">)</span>
+
+<span class="c1"># Plot counterfactual mean bounce rate with 95% confidence interval
+</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">"T"</span><span class="p">][</span><span class="n">start</span><span class="p">:],</span> <span class="n">cf</span><span class="p">[</span><span class="s">'mean'</span><span class="p">][</span><span class="n">start</span><span class="p">:],</span> <span class="s">'k.'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"counterfactual"</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">"T"</span><span class="p">][</span><span class="n">start</span><span class="p">:],</span> <span class="n">cf</span><span class="p">[</span><span class="s">'mean_ci_lower'</span><span class="p">][</span><span class="n">start</span><span class="p">:],</span> <span class="n">cf</span><span class="p">[</span><span class="s">'mean_ci_upper'</span><span class="p">][</span><span class="n">start</span><span class="p">:],</span> <span class="n">color</span><span class="o">=</span><span class="s">'k'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"counterfactual 95% CI"</span><span class="p">);</span>
+
+<span class="c1"># Plot line marking intervention moment
+</span><span class="n">ax</span><span class="p">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mf">24.5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s">'r'</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">'intervention'</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s">'best'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Weeks"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Bounce rate (%)"</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<p align="center">
+    <picture>
+        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/data_trends1.webp" class="lazyload" alt="Interrupted Time Series using OLS with counterfactual and pos-intervention plots" width="100%" style="box-shadow: 5px 5px 10px grey;"></source>
+        <img data-src="/fastpages-blog/images/posts/its/data_trends1.png" class="lazyload" alt="Interrupted Time Series using OLS with counterfactual and pos-intervention plots" width="100%" style="box-shadow: 5px 5px 10px grey;">
+    </picture>
+</p>
+
+<h3 id="problems-with-naive-approach">
+<a class="anchor" href="#problems-with-naive-approach" aria-hidden="true"><span class="octicon octicon-link"></span></a>Problems with naive approach</h3>
+
+<p align="center">
+    <picture>
+        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/autocorrelation_future_meme.webp" class="lazyload" alt="predicts the future forgets temporal autocorrelation meme" width="67%"></source>
+        <img data-src="/fastpages-blog/images/posts/its/autocorrelation_future_meme.jpg" class="lazyload" alt="predicts the future forgets temporal autocorrelation meme" width="67%">
+    </picture>
+</p>
+
+<p>OLS (Ordinary Least Squares) regression has <a href="https://www.datasciencecentral.com/profiles/blogs/7-classical-assumptions-of-ordinary-least-squares-ols-linear">seven main assumptions</a> but for brevity in this article we will focus on two only:</p>
+
+<ul>
+  <li>Individual observations are <em>independent</em>.</li>
+  <li>Residuals follow a normal distribution.</li>
+</ul>
+
+<h4 id="lets-first-check-for-the-normality-of-residuals">
+<a class="anchor" href="#lets-first-check-for-the-normality-of-residuals" aria-hidden="true"><span class="octicon octicon-link"></span></a>Let’s first check for the normality of residuals:</h4>
+
+<p>We can apply the <a href="https://en.wikipedia.org/wiki/Jarque%E2%80%93Bera_test">Jarque-Bera test</a> on residuals to checks whether their skewness and kurtosis match a normal distribution ($H_0$: residual distribution follows a normal distribution). Our <code class="language-plaintext highlighter-rouge">statsmodels</code> OLS <a href="#ols-output">summary output</a> shows a <code class="language-plaintext highlighter-rouge">Prob(JB): 0.369</code> which for a standard $\alpha$ level of 0.05 doesn’t allow us discard null
+hypothesis ($H_0$).</p>
+
+<p><span id="ols-residuals-kde">Let’s plot the distribution of residuals:</span></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">res</span><span class="p">.</span><span class="n">resid</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">"kde"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p align="center">
+    <picture>
+        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/ols_res_kde.webp" class="lazyload" alt="ols residual distribution plot" width="80%" style="box-shadow: 5px 5px 10px grey;"></source>
+        <img data-src="/fastpages-blog/images/posts/its/ols_res_kde.jpg" class="lazyload" alt="ols residual distribution plot" width="80%" style="box-shadow: 5px 5px 10px grey;">
+    </picture>
+</p>
+
+<p>Which for a small dataset (less than 50 points) looks sufficiently gaussian.</p>
+
+<p>Overall, the assumption of normality of residuals can’t be convincingly refuted. ✅</p>
+
+<h4 id="checking-independence-of-observations">
+<a class="anchor" href="#checking-independence-of-observations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Checking independence of observations:</h4>
+
+<p>The <a href="https://en.wikipedia.org/wiki/Durbin%E2%80%93Watson_statistic">Durbin-Watson statistic</a> test if the residuals are correlated with its immediate predecessor, that is, if they have an autocorrelation at lag 1 or $AR(1)$. Its value ranges from 0 to 4 and values smaller than 1.5 indicate a positive autocorrelation, while values greater than 2.5 signal a negative autocorrelation.</p>
+
+<p>If we take a look again at our OLS <a href="#ols-output">summary output</a> we will observe that the Durbin-Watson statistic has a value of 0.665 which signals a strong positive $AR(1)$.</p>
+
+<p><span id="ols-residuals-plot">Let’s plot the residuals to see if we can observe this autocorrelation:</span></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">altair</span> <span class="k">as</span> <span class="n">alt</span>
+
+<span class="n">rules</span> <span class="o">=</span> <span class="n">alt</span><span class="p">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span>
+  <span class="s">'residuals'</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span>
+  <span class="s">'color'</span><span class="p">:</span> <span class="p">[</span><span class="s">'black'</span><span class="p">]</span>
+<span class="p">})).</span><span class="n">mark_rule</span><span class="p">().</span><span class="n">encode</span><span class="p">(</span>
+  <span class="n">y</span><span class="o">=</span><span class="s">'residuals'</span><span class="p">,</span>
+  <span class="n">color</span><span class="o">=</span><span class="n">alt</span><span class="p">.</span><span class="n">Color</span><span class="p">(</span><span class="s">'color:N'</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">residual_plot</span> <span class="o">=</span> <span class="n">alt</span><span class="p">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">res_df</span><span class="p">).</span><span class="n">mark_point</span><span class="p">().</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="p">.</span><span class="n">X</span><span class="p">(</span><span class="s">'Weeks'</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="p">.</span><span class="n">Y</span><span class="p">(</span><span class="s">'residuals'</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">rules</span> <span class="o">+</span> <span class="n">residual_plot</span> 
+</code></pre></div></div>
+
+<p align="center">
+    <picture>
+        <img data-src="/fastpages-blog/images/posts/its/data_viz_residuals.svg" class="lazyload" alt="ols visualization of residuals" width="100%" style="box-shadow: 5px 5px 10px grey;">
+    </picture>
+</p>
+
+<p>Notice how residuals above/below zero have most points temporally close to it also above/below zero as well, which goes against the independence of observations assumption of OLS ❌.</p>
+
+<hr>
+
+<p>📝In practice when analyzing time series data the presence of autocorrelation is the rule instead of the exception since in general the factors that contributed to a given observation tend to persist for a while.</p>
+
+<hr>
+
+<h2 id="autoregressive-model-solution">
+<a class="anchor" href="#autoregressive-model-solution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Autoregressive model solution</h2>
+
+<p>The autoregressive model specifies that each observation depends linearly on previous observations.</p>
+
+<p>Thus, an autoregressive model of order $p$ ($AR(p)$) can be written as</p>
+
+<p>\begin{equation}
+y_t = c + \phi_1 y_{t-1}+ \dots + \phi_p y_{t-p} + \epsilon_t
+\end{equation}</p>
+
+<p>Where:</p>
+
+<p>$y_t$: observation at time $t$,</p>
+
+<p>$y_{t-i}$: observation at time $t - i$,</p>
+
+<p>$\phi_i$: coefficient of how much observation $y_{t - i}$ correlates to $y_t$,</p>
+
+<p>$\epsilon_t$: white noise ( $\mathcal{N}(0, \sigma²)$ ) at time $t$.</p>
+
+<h4 id="autocorrelation">
+<a class="anchor" href="#autocorrelation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Autocorrelation</h4>
+
+<p>To assess how much an observation correlates with past observations it is useful to do an autocorrelation plot as shown below:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sm</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">tsa</span><span class="p">.</span><span class="n">plot_acf</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p align="center">
+    <picture>
+        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/autocorrelation.webp" class="lazyload" alt="autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;"></source>
+        <img data-src="/fastpages-blog/images/posts/its/autocorrelation.png" class="lazyload" alt="autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;">
+    </picture>
+</p>
+
+<h4 id="partial-autocorrelation">
+<a class="anchor" href="#partial-autocorrelation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Partial Autocorrelation</h4>
+
+<p>The partial autocorrelation at lag $p$ is the correlation that results after removing the effect of any correlations due to the terms at shorter lags.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sm</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">tsa</span><span class="p">.</span><span class="n">plot_pacf</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>   
+</code></pre></div></div>
+
+<p align="center">
+    <picture>
+        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/partial_autocorrelation.webp" class="lazyload" alt="partial autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;"></source>
+        <img data-src="/fastpages-blog/images/posts/its/partial_autocorrelation.png" class="lazyload" alt="partial autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;">
+    </picture>
+</p>
+
+<h3 id="model-selection">
+<a class="anchor" href="#model-selection" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model selection</h3>
+
+<p>The theory states that in an autoregressive model its autocorrelation plot should depict an exponential decay and the number of lags $p$
+should be taken from the partial autocorrelation chart using its $p$ most relevant lags. Applying the theory to our plots above, we conclude that
+our model is autoregressive of lag 1 also known as AR(1).</p>
+
+<h3 id="arima">
+<a class="anchor" href="#arima" aria-hidden="true"><span class="octicon octicon-link"></span></a>ARIMA</h3>
+
+<p>In statistics <a href="https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average">ARIMA</a> stands for <strong>autoregressive integrated moving average</strong> model and as can be inferred by the name AR models are as especial case of ARIMA therefore AR(1) is equivalent to ARIMA(1,0,0).</p>
+
+<p>We can model an AR(1) process to our dataset using <code class="language-plaintext highlighter-rouge">statsmodels</code> ARIMA as below:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">statsmodels.tsa.arima.model</span> <span class="kn">import</span> <span class="n">ARIMA</span>
+
+<span class="n">arima_results</span> <span class="o">=</span> <span class="n">ARIMA</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">"Y"</span><span class="p">],</span> <span class="n">df</span><span class="p">[[</span><span class="s">"T"</span><span class="p">,</span><span class="s">"D"</span><span class="p">,</span><span class="s">"P"</span><span class="p">]],</span> <span class="n">order</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)).</span><span class="n">fit</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">arima_results</span><span class="p">.</span><span class="n">summary</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>Output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                               SARIMAX Results                                
+==============================================================================
+Dep. Variable:                      Y   No. Observations:                   48
+Model:                 ARIMA(1, 0, 0)   Log Likelihood                  18.574
+Date:                Thu, 30 Dec 2021   AIC                            -25.148
+Time:                        01:51:46   BIC                            -13.921
+Sample:                             0   HQIC                           -20.905
+                                 - 48                                         
+Covariance Type:                  opg                                         
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         12.9172      0.279     46.245      0.000      12.370      13.465
+T              0.0121      0.016      0.767      0.443      -0.019       0.043
+D             -0.5510      0.273     -2.018      0.044      -1.086      -0.016
+P             -0.0238      0.021     -1.155      0.248      -0.064       0.017
+ar.L1          0.6635      0.138      4.803      0.000       0.393       0.934
+sigma2         0.0267      0.006      4.771      0.000       0.016       0.038
+===================================================================================
+Ljung-Box (L1) (Q):                   1.00   Jarque-Bera (JB):                 0.15
+Prob(Q):                              0.32   Prob(JB):                         0.93
+Heteroskedasticity (H):               1.44   Skew:                            -0.05
+Prob(H) (two-sided):                  0.47   Kurtosis:                         3.25
+===================================================================================
+</code></pre></div></div>
+
+<p>The autoregressive model estimates that the bounce rate decreased 🔻 0.55% on average and this effect
+is statistically significant ($P&gt;|t| = 4.4\% $, less than our $\alpha = 5\% $).</p>
+
+<p>However, unlike the previous OLS model, the autoregressive model does not estimate a statistical significance trend of a decrease in bounce rate each week after intervention, which is in line with our expectations.</p>
+
+<p>The models estimates (with counterfactual projections) can be seen in the chart below:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.arima.model</span> <span class="kn">import</span> <span class="n">ARIMA</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="n">end</span> <span class="o">=</span> <span class="mi">48</span>
+
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">arima_results</span><span class="p">.</span><span class="n">get_prediction</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">summary</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">.</span><span class="n">summary_frame</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+
+<span class="n">arima_cf</span> <span class="o">=</span> <span class="n">ARIMA</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">"Y"</span><span class="p">][:</span><span class="n">start</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s">"T"</span><span class="p">][:</span><span class="n">start</span><span class="p">],</span> <span class="n">order</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)).</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="c1"># Model predictions means
+</span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">.</span><span class="n">predicted_mean</span>
+
+<span class="c1"># Counterfactual mean and 95% confidence interval
+</span><span class="n">y_cf</span> <span class="o">=</span> <span class="n">arima_cf</span><span class="p">.</span><span class="n">get_forecast</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="n">exog</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">"T"</span><span class="p">][</span><span class="n">start</span><span class="p">:]).</span><span class="n">summary_frame</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+
+<span class="c1"># Plot section
+</span><span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">use</span><span class="p">(</span><span class="s">'seaborn-whitegrid'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Plot bounce rate data
+</span><span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">"T"</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s">"Y"</span><span class="p">],</span> <span class="n">facecolors</span><span class="o">=</span><span class="s">'none'</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s">'steelblue'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"bounce rate data"</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Plot model mean bounce prediction
+</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">"T"</span><span class="p">][:</span><span class="n">start</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">[:</span><span class="n">start</span><span class="p">],</span> <span class="s">'b-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"model prediction"</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">"T"</span><span class="p">][</span><span class="n">start</span><span class="p">:],</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">start</span><span class="p">:],</span> <span class="s">'b-'</span><span class="p">)</span>
+
+<span class="c1"># Plot counterfactual mean bounce rate with 95% confidence interval
+</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">"T"</span><span class="p">][</span><span class="n">start</span><span class="p">:],</span> <span class="n">y_cf</span><span class="p">[</span><span class="s">"mean"</span><span class="p">],</span> <span class="s">'k.'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"counterfactual"</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">"T"</span><span class="p">][</span><span class="n">start</span><span class="p">:],</span> <span class="n">y_cf</span><span class="p">[</span><span class="s">'mean_ci_lower'</span><span class="p">],</span> <span class="n">y_cf</span><span class="p">[</span><span class="s">'mean_ci_upper'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">'k'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"counterfactual 95% CI"</span><span class="p">);</span>
+
+
+<span class="c1"># Plot line marking intervention moment
+</span><span class="n">ax</span><span class="p">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mf">24.5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s">'r'</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">'intervention'</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s">'best'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Weeks"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Bounce rate (%)"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p align="center">
+    <picture>
+        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/data_trends2.webp" class="lazyload" alt="arima pre and post intervention modeling with counterfactual" width="100%" style="box-shadow: 5px 5px 10px grey;"></source>
+        <img data-src="/fastpages-blog/images/posts/its/data_trends2.png" class="lazyload" alt="arima pre and post intervention modeling with counterfactual" width="100%" style="box-shadow: 5px 5px 10px grey;">
+    </picture>
+</p>
+
+<p>We can clearly see that the ARIMA(1, 0, 0) model fits our dataset better than the OLS model.</p>
+
+<h3 id="arima-residual-analysis">
+<a class="anchor" href="#arima-residual-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>ARIMA residual analysis</h3>
+
+<p>The summary of our autoregressive model shows a <code class="language-plaintext highlighter-rouge">Prob(JB): 0.93</code> which is compatible with the null-hypothesis of normaly distributed residuals. ✅</p>
+
+<p>The <a href="https://en.wikipedia.org/wiki/Ljung%E2%80%93Box_test">Ljung-Box Q test</a> verifies whether the residuals are independently distributed (they exhibit no serial autocorrelation) as $H_0$ (null-hypothesis). As the <code class="language-plaintext highlighter-rouge">Prob(Q): 0.32</code> is way above the standard $\alpha = 0.05$ there is no evidence of serial autocorrelation in the ARIMA residuals. ✅</p>
+
+<p>Let’s now take a look at residuals <a href="https://data.library.virginia.edu/understanding-q-q-plots/">qqplot</a> to check if they follow a normal distribution:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="n">sp</span>
+<span class="kn">from</span> <span class="nn">statsmodels.graphics.gofplots</span> <span class="kn">import</span> <span class="n">qqplot</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">sm</span><span class="p">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">sp</span><span class="p">.</span><span class="n">stats</span><span class="p">.</span><span class="n">t</span><span class="p">,</span> <span class="n">fit</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="s">"45"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">);</span>
+<span class="n">ax1</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">"OLS qqplot"</span><span class="p">);</span>
+
+<span class="n">sm</span><span class="p">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">arima_results</span><span class="p">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">sp</span><span class="p">.</span><span class="n">stats</span><span class="p">.</span><span class="n">t</span><span class="p">,</span> <span class="n">fit</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="s">"45"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+<span class="n">ax2</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">"ARIMA qqplot"</span><span class="p">);</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+
+</code></pre></div></div>
+
+<p align="center">
+    <picture>
+        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/qqplot-sidebyside.webp" class="lazyload" alt="qqplots" width="80%" style="box-shadow: 5px 5px 10px grey;"></source>
+        <img data-src="/fastpages-blog/images/posts/its/qqplot-sidebyside.jpg" class="lazyload" alt="qqplots" width="80%" style="box-shadow: 5px 5px 10px grey;">
+    </picture>
+</p>
+
+<p>We may observe that the ARIMA(1,0,0) model residuals not only are in general normally distributed as they fit better than the OLS model the theoretical quantiles. ✅</p>
+
+<h2 id="summary">
+<a class="anchor" href="#summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summary</h2>
+
+<p>A/B tests are a the most powerful and trustworthy method to do measure the impact of modifications/changes even before they are fully implemented, which is why they are so widely used.</p>
+
+<p>However, there are some scenarios where A/B tests are not feasible and this is when the knowledge of quasi-experiments becomes valuable to get statistically sound  measurements of change impact.</p>
+
+<p>In this post we have shown why an ordinary least square (OLS) linear regression is not a good modeling approach for time series data since they usualy present non-negligible autocorrelation that violates some assumptions of OLS.</p>
+
+<p>We demonstrated with an example how to use python (<code class="language-plaintext highlighter-rouge">statsmodels</code>, <code class="language-plaintext highlighter-rouge">matplotlib</code>, <code class="language-plaintext highlighter-rouge">altair</code> and <code class="language-plaintext highlighter-rouge">pandas</code>) to visualize residuals and plot autocorrelation and partial autocorrelations charts to figure out the lag of an autoregressive model and then implemented a ARIMA model using <code class="language-plaintext highlighter-rouge">statsmodels</code> to observed a more accurate and precise analysis and how to interpret <code class="language-plaintext highlighter-rouge">statsmodels</code> model output for OLS and ARIMA.</p>
+
+<p>We also showed how to plot in a single chart the models estimates (mean and 95% confidence interval) for the time periods before and after intervention and its respective counterfactual.</p>
+
+<p><span id="chegou-no-fim"></span></p>
+
+<h2 id="references">
+<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+<p><a name="ref-1" href="https://shopify.engineering/using-quasi-experiments-counterfactuals" target="blank" rel="noopener">[1] Shopify Engineering: How to Use Quasi-experiments and Counterfactuals to Build Great Products.</a></p>
+
+<p><a name="ref-2" href="https://en.wikipedia.org/wiki/Interrupted_time_series" target="blank" rel="noopener">[2] Wikipedia: Interrupted Time Series.</a></p>
+
+<p><a name="ref-3" href="https://scholar.google.com/scholar_lookup?title=Experimental%20and%20Quasi-experimental%20Designs%20for%20Research&amp;author=DT%20Campbell&amp;author=JC%20Stanley&amp;publication_year=1963&amp;book=Experimental%20and%20Quasi-experimental%20Designs%20for%20Research" target="blank" rel="noopener">[3] Campbell DT, Stanley JC. Experimental and Quasi-experimental Designs for Research. Boston, MA: Houghton Mifflin, 1963.</a></p>
+
+  </div><a class="u-url" href="/fastpages-blog/interrupted-time-series-python-part-I" hidden></a>
+</article>
+<script src="/fastpages-blog/assets/js/lazysizes.min.js" async></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/fastpages-blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/fastpages-blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/fastpages-blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Everything data and programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/xboard" target="_blank" title="xboard"><svg class="svg-icon grey"><use xlink:href="/fastpages-blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/xboard_" target="_blank" title="xboard_"><svg class="svg-icon grey"><use xlink:href="/fastpages-blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
