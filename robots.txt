@@ -1,0 +1,1 @@
+Sitemap: https://xboard.github.io/fastpages-blog/sitemap.xml
