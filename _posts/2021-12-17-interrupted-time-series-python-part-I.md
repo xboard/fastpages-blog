@@ -48,8 +48,8 @@ However, sometimes it's just not possible to set up an A/B test:
 ## Quasi Experiments
 
 <picture>
-    <source type="image/webp" data-srcset="{{ site.url }}/assets/images/its/the-gold-standard-meme.webp" class="lazyload" alt="gold standard meme" width="67%">
-    <img data-src="{{ site.url }}/assets/images/its/the-gold-standard-meme.jpg" class="lazyload" alt="gold standard meme" width="67%">
+    <source type="image/webp" data-srcset="{{ baseimages }}/the-gold-standard-meme.webp" class="lazyload" alt="gold standard meme" width="67%">
+    <img data-src="{{ baseimages }}/the-gold-standard-meme.jpg" class="lazyload" alt="gold standard meme" width="67%">
 </picture>
 
 
@@ -64,8 +64,8 @@ There are some scenarios, like some described in the previous section, where hav
 Interrupted time series (ITS) is a method of statistical analysis involving tracking a period before and after a intervention at a known point in time to assess the intervention's effects _within a single group/population_. The time series refers to the data over the period, while the interruption is the intervention, which is a controlled external influence or set of influences. Effects of the intervention are evaluated by changes in the level and slope of the time series and statistical significance of the intervention parameters[[2]](#ref-2). The more observations you have before and after the intervention, the more robust your model will be (typically). Because the evaluation is based on observing a single population over time, the ITS design is free from problems due to between-group difference but are susceptible to time-varying confounders like other interventions occurring around the time of the intervention that may also affect the outcome[[3]](#ref-3).
 
 <picture>
-    <source type="image/webp" data-srcset="{{ site.url }}/assets/images/its/its1.webp" class="lazyload" alt="Interrupted Time Series analysis example" width="100%" style="box-shadow: 5px 5px 10px grey;">
-    <img data-src="{{ site.url }}/assets/images/its/its1.jpg" class="lazyload" alt="Interrupted Time Series analysis example" width="100%" style="box-shadow: 5px 5px 10px grey;">
+    <source type="image/webp" data-srcset="{{ baseimages }}/its1.webp" class="lazyload" alt="Interrupted Time Series analysis example" width="100%" style="box-shadow: 5px 5px 10px grey;">
+    <img data-src="{{ baseimages }}/its1.jpg" class="lazyload" alt="Interrupted Time Series analysis example" width="100%" style="box-shadow: 5px 5px 10px grey;">
 </picture>
 
 
@@ -108,8 +108,8 @@ With $\epsilon$ representing a zero centered gaussian random error.
 ### Counterfactual
 
 <picture>
-    <source type="image/webp" data-srcset="{{ site.url }}/assets/images/its/matrix-red-blue-pill.webp" class="lazyload" alt="matrix blue/red pill choice of reality" width="100%">
-    <img data-src="{{ site.url }}/assets/images/its/matrix-red-blue-pill.png" class="lazyload" alt="matrix blue/red pill choice of reality" width="100%">
+    <source type="image/webp" data-srcset="{{ baseimages }}/matrix-red-blue-pill.webp" class="lazyload" alt="matrix blue/red pill choice of reality" width="100%">
+    <img data-src="{{ baseimages }}/matrix-red-blue-pill.png" class="lazyload" alt="matrix blue/red pill choice of reality" width="100%">
 </picture>
 <figcaption><i>What would have happened had Neo chosen the blue pill?</i></figcaption>
 
@@ -133,7 +133,7 @@ Bob provides us with [💾 24 weeks of data](/assets/data/its/raw_data.csv) befo
 
 <p align="center">
     <picture>
-        <img data-src="{{ site.url }}/assets/images/its/data_viz1.svg" class="lazyload" alt="ploting data collected" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <img data-src="{{ baseimages }}/data_viz1.svg" class="lazyload" alt="ploting data collected" width="100%" style="box-shadow: 5px 5px 10px grey;">
     </picture>
 </p>
 
@@ -209,10 +209,6 @@ It is also noteworth that the model estimates a small (on average 🔻 0.0297%) 
 
 The figure below depicts how the model fits before and after intervention and how it project a counterfactual would be:
 
-<details>
-    <summary>Click to see code.</summary>
-<p>
-
 ```python
 
 start = 24
@@ -259,13 +255,11 @@ plt.ylabel("Bounce rate (%)");
 
 ```
 
-</p>
-</details>
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="{{ site.url }}/assets/images/its/data_trends1.webp" class="lazyload" alt="Interrupted Time Series using OLS with counterfactual and pos-intervention plots" width="100%" style="box-shadow: 5px 5px 10px grey;">
-        <img data-src="{{ site.url }}/assets/images/its/data_trends1.png" class="lazyload" alt="Interrupted Time Series using OLS with counterfactual and pos-intervention plots" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <source type="image/webp" data-srcset="{{ baseimages }}/data_trends1.webp" class="lazyload" alt="Interrupted Time Series using OLS with counterfactual and pos-intervention plots" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <img data-src="{{ baseimages }}/data_trends1.png" class="lazyload" alt="Interrupted Time Series using OLS with counterfactual and pos-intervention plots" width="100%" style="box-shadow: 5px 5px 10px grey;">
     </picture>
 </p>
 
@@ -273,8 +267,8 @@ plt.ylabel("Bounce rate (%)");
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="{{ site.url }}/assets/images/its/autocorrelation_future_meme.webp" class="lazyload" alt="predicts the future forgets temporal autocorrelation meme" width="67%">
-        <img data-src="{{ site.url }}/assets/images/its/autocorrelation_future_meme.jpg" class="lazyload" alt="predicts the future forgets temporal autocorrelation meme" width="67%">
+        <source type="image/webp" data-srcset="{{ baseimages }}/autocorrelation_future_meme.webp" class="lazyload" alt="predicts the future forgets temporal autocorrelation meme" width="67%">
+        <img data-src="{{ baseimages }}/autocorrelation_future_meme.jpg" class="lazyload" alt="predicts the future forgets temporal autocorrelation meme" width="67%">
     </picture>
 </p>
 
@@ -289,20 +283,15 @@ We can apply the [Jarque-Bera test](https://en.wikipedia.org/wiki/Jarque%E2%80%9
 hypothesis ($H_0$).
 
 <span id="ols-residuals-kde">Let's plot the distribution of residuals:</span>
-<details>
-<summary>Click to see code.</summary>
-<p>
 
 ```python
     res.resid.plot(kind="kde")
 ```
-</p>
-</details>
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="{{ site.url }}/assets/images/its/ols_res_kde.webp" class="lazyload" alt="ols residual distribution plot" width="80%" style="box-shadow: 5px 5px 10px grey;">
-        <img data-src="{{ site.url }}/assets/images/its/ols_res_kde.jpg" class="lazyload" alt="ols residual distribution plot" width="80%" style="box-shadow: 5px 5px 10px grey;">
+        <source type="image/webp" data-srcset="{{ baseimages }}/ols_res_kde.webp" class="lazyload" alt="ols residual distribution plot" width="80%" style="box-shadow: 5px 5px 10px grey;">
+        <img data-src="{{ baseimages }}/ols_res_kde.jpg" class="lazyload" alt="ols residual distribution plot" width="80%" style="box-shadow: 5px 5px 10px grey;">
     </picture>
 </p>
 
@@ -319,9 +308,6 @@ If we take a look again at our OLS [summary output](#ols-output) we will observe
 
 <span id="ols-residuals-plot">Let's plot the residuals to see if we can observe this autocorrelation:</span>
 
-<details>
-<summary>Click to see code.</summary>
-<p>
 
 ```python
 import altair as alt
@@ -342,12 +328,10 @@ residual_plot = alt.Chart(res_df).mark_point().encode(
 rules + residual_plot 
 ```
 
-</p>
-</details>
 
 <p align="center">
     <picture>
-        <img data-src="{{ site.url }}/assets/images/its/data_viz_residuals.svg" class="lazyload" alt="ols visualization of residuals" width="100%"  style="box-shadow: 5px 5px 10px grey;">
+        <img data-src="{{ baseimages }}/data_viz_residuals.svg" class="lazyload" alt="ols visualization of residuals" width="100%"  style="box-shadow: 5px 5px 10px grey;">
     </picture>
 </p>
 
@@ -386,21 +370,17 @@ $\epsilon_t$: white noise ( $\mathcal{N}(0, \sigma²)$ ) at time $t$.
 
 To assess how much an observation correlates with past observations it is useful to do an autocorrelation plot as shown below:
 
-<details>
-<summary>Click to see code.</summary>
-<p>
 
 ```python
 sm.graphics.tsa.plot_acf(res.resid, lags=10)
 plt.show()
 ```
-</p>
-</details>
+
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="{{ site.url }}/assets/images/its/autocorrelation.webp" class="lazyload" alt="autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;">
-        <img data-src="{{ site.url }}/assets/images/its/autocorrelation.png" class="lazyload" alt="autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <source type="image/webp" data-srcset="{{ baseimages }}/autocorrelation.webp" class="lazyload" alt="autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <img data-src="{{ baseimages }}/autocorrelation.png" class="lazyload" alt="autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;">
     </picture>
 </p>
 
@@ -410,22 +390,17 @@ The partial autocorrelation at lag $p$ is the correlation that results after rem
 
 
 
-<details>
-<summary>Click to see code.</summary>
-<p>
 
 ```python
 sm.graphics.tsa.plot_pacf(res.resid, lags=10)
 plt.show()   
 ```
-</p>
-</details>
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="{{ site.url }}/assets/images/its/partial_autocorrelation.webp" class="lazyload" alt="partial autocorrelation plot" width="100%"
+        <source type="image/webp" data-srcset="{{ baseimages }}/partial_autocorrelation.webp" class="lazyload" alt="partial autocorrelation plot" width="100%"
         style="box-shadow: 5px 5px 10px grey;">
-        <img data-src="{{ site.url }}/assets/images/its/partial_autocorrelation.png" class="lazyload" alt="partial autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <img data-src="{{ baseimages }}/partial_autocorrelation.png" class="lazyload" alt="partial autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;">
     </picture>
 </p>
 
@@ -484,10 +459,6 @@ However, unlike the previous OLS model, the autoregressive model does not estima
 
 The models estimates (with counterfactual projections) can be seen in the chart below:
 
-<details>
-<summary>Click to see code.</summary>
-<p>
-
 ```python
 
 from statsmodels.tsa.arima.model import ARIMA
@@ -530,14 +501,12 @@ plt.ylim([10, 15])
 plt.xlabel("Weeks")
 plt.ylabel("Bounce rate (%)");
 ```
-</p>
-</details>
 
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="{{ site.url }}/assets/images/its/data_trends2.webp" class="lazyload" alt="arima pre and post intervention modeling with counterfactual" width="100%" style="box-shadow: 5px 5px 10px grey;">
-        <img data-src="{{ site.url }}/assets/images/its/data_trends2.png" class="lazyload" alt="arima pre and post intervention modeling with counterfactual" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <source type="image/webp" data-srcset="{{ baseimages }}/data_trends2.webp" class="lazyload" alt="arima pre and post intervention modeling with counterfactual" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <img data-src="{{ baseimages }}/data_trends2.png" class="lazyload" alt="arima pre and post intervention modeling with counterfactual" width="100%" style="box-shadow: 5px 5px 10px grey;">
     </picture>
 </p>
 
@@ -552,29 +521,27 @@ The [Ljung-Box Q test](https://en.wikipedia.org/wiki/Ljung%E2%80%93Box_test) ver
 
 Let's now take a look at residuals [qqplot](https://data.library.virginia.edu/understanding-q-q-plots/) to check if they follow a normal distribution:
 
-<details>
-<summary>Click to see code.</summary>
-<p>
 
 ```python
 
 import scipy as sp
 from statsmodels.graphics.gofplots import qqplot
+
 fig, (ax1, ax2) = plt.subplots(1,2, figsize=(16,8))
 sm.qqplot(res.resid, sp.stats.t, fit=True, line="45", ax=ax1);
 ax1.set_title("OLS qqplot");
+
 sm.qqplot(arima_results.resid, sp.stats.t, fit=True, line="45", ax=ax2);
 ax2.set_title("ARIMA qqplot");
 plt.show();
 
 ```
-</p>
-</details>
+
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="{{ site.url }}/assets/images/its/qqplot-sidebyside.webp" class="lazyload" alt="qqplots" width="80%" style="box-shadow: 5px 5px 10px grey;">
-        <img data-src="{{ site.url }}/assets/images/its/qqplot-sidebyside.jpg" class="lazyload" alt="qqplots" width="80%" style="box-shadow: 5px 5px 10px grey;">
+        <source type="image/webp" data-srcset="{{ baseimages }}/qqplot-sidebyside.webp" class="lazyload" alt="qqplots" width="80%" style="box-shadow: 5px 5px 10px grey;">
+        <img data-src="{{ baseimages }}/qqplot-sidebyside.jpg" class="lazyload" alt="qqplots" width="80%" style="box-shadow: 5px 5px 10px grey;">
     </picture>
 </p>
 
