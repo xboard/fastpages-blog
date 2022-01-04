@@ -1,1 +1,1 @@
-Sitemap: https://xboard.github.io/fastpages-blog/sitemap.xml
+Sitemap: https://www.xboard.dev/fastpages-blog/sitemap.xml
