@@ -7,7 +7,7 @@ title: "Interrupted Time Series (ITS) in Python"
 description: "Interrupted Time Series (ITS) analysis using Python and statsmodels"
 image: https://www.xboard.dev/assets/images/its/its-card2.jpg
 categories: [data-science]
-
+comments: true
 ---
 
 {% capture baseimages %}{{ site.baseurl }}/images/posts/its{% endcapture %}
