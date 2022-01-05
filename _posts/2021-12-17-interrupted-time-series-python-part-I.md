@@ -11,6 +11,7 @@ comments: true
 ---
 
 {% capture baseimages %}{{ site.baseurl }}/images/posts/its{% endcapture %}
+{% capture basedata %}{{ site.baseurl }}/assets/data/its{% endcapture %}
 
 <picture>
     <source type="image/webp" data-srcset="{{ baseimages }}/its-card.webp" class="lazyload" alt="Interrupted Time Series Analysis example" width="100%">
@@ -129,7 +130,7 @@ Bob runs a large and successful blog on personal finance. During a webinar he le
 
 ### Dataset
 
-Bob provides us with [💾 24 weeks of data](/assets/data/its/raw_data.csv) before adding the CDN and 24 weeks after it (intervention). Therefore, weeks 1 to 24 have a bouncing rate before intervention and weeks 25 to 48 after it. 
+Bob provides us with [💾 24 weeks of data]({{ basedata }}/raw_data.csv) before adding the CDN and 24 weeks after it (intervention). Therefore, weeks 1 to 24 have a bouncing rate before intervention and weeks 25 to 48 after it. 
 
 <p align="center">
     <picture>
@@ -141,7 +142,7 @@ Visually, it looks like after enabling the CDN the bounce rate decreased, but by
 
 ### Dataset preparation
 
-Using equation \eqref{eq:its} notation we [💾 enrich this data](/assets/data/its/enriched_data.csv) with values for columns $D$ ($0$ = before intervention, $1$ after) and $P$ (number of weeks since intervention started):
+Using equation \eqref{eq:its} notation we [💾 enrich this data]({{ basedata }}/enriched_data.csv) with values for columns $D$ ($0$ = before intervention, $1$ after) and $P$ (number of weeks since intervention started):
 
 | Bouncing rate<br/>(Y) | Week <br/>(T) | Intervention<br/>(D) | Intervention week<br/>(P) |
 | :-------------------: | :-----------: | :------------------: | :-----------------: |
