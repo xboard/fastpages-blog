@@ -10,8 +10,8 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Interrupted Time Series (ITS) analysis using Python and statsmodels" />
 <meta property="og:description" content="Interrupted Time Series (ITS) analysis using Python and statsmodels" />
-<link rel="canonical" href="https://www.xboard.dev/fastpages-blog/interrupted-time-series-python-part-I" />
-<meta property="og:url" content="https://www.xboard.dev/fastpages-blog/interrupted-time-series-python-part-I" />
+<link rel="canonical" href="https://www.xboard.dev/interrupted-time-series-python-part-I" />
+<meta property="og:url" content="https://www.xboard.dev/interrupted-time-series-python-part-I" />
 <meta property="og:site_name" content="xboard.dev" />
 <meta property="og:image" content="https://www.xboard.dev/assets/images/its/its-card2.jpg" />
 <meta property="og:type" content="article" />
@@ -20,9 +20,9 @@
 <meta property="twitter:image" content="https://www.xboard.dev/assets/images/its/its-card2.jpg" />
 <meta property="twitter:title" content="Interrupted Time Series (ITS) in Python" />
 <script type="application/ld+json">
-{"url":"https://www.xboard.dev/fastpages-blog/interrupted-time-series-python-part-I","@type":"BlogPosting","headline":"Interrupted Time Series (ITS) in Python","dateModified":"2022-01-01T00:00:00-06:00","datePublished":"2022-01-01T00:00:00-06:00","image":"https://www.xboard.dev/assets/images/its/its-card2.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.xboard.dev/fastpages-blog/interrupted-time-series-python-part-I"},"description":"Interrupted Time Series (ITS) analysis using Python and statsmodels","@context":"https://schema.org"}</script>
+{"url":"https://www.xboard.dev/interrupted-time-series-python-part-I","@type":"BlogPosting","headline":"Interrupted Time Series (ITS) in Python","dateModified":"2022-01-01T00:00:00-06:00","datePublished":"2022-01-01T00:00:00-06:00","image":"https://www.xboard.dev/assets/images/its/its-card2.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.xboard.dev/interrupted-time-series-python-part-I"},"description":"Interrupted Time Series (ITS) analysis using Python and statsmodels","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/fastpages-blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://www.xboard.dev/fastpages-blog/feed.xml" title="xboard.dev" /><!-- the google_analytics_id gets auto inserted from the config file -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://www.xboard.dev/feed.xml" title="xboard.dev" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
 
 
@@ -35,14 +35,14 @@
 
   gtag('config', 'G-5FL5R0TTQ6');
 </script>
-<script src="/fastpages-blog/assets/js/myevents.min.js" async></script>
+<script src="/assets/js/myevents.min.js" async></script>
 
-<link rel="shortcut icon" type="image/x-icon" href="/fastpages-blog/images/favicon.ico">
-<link rel="apple-touch-icon" sizes="180x180" href="/fastpages-blog/images/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/fastpages-blog/images/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/fastpages-blog/images/favicon-16x16.png">
-<link rel="manifest" href="/fastpages-blog/images/site.webmanifest">
-<link rel="mask-icon" href="/fastpages-blog/images/safari-pinned-tab.svg">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+<link rel="manifest" href="/images/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg">
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -95,7 +95,7 @@ window.onload = wrap_img;
 </head>
 <body><header class="site-header">
 
-  <div class="wrapper"><a class="site-title" rel="author" href="/fastpages-blog/">xboard.dev</a><nav class="site-nav">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">xboard.dev</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger">
           <span class="menu-icon">
@@ -105,7 +105,7 @@ window.onload = wrap_img;
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/fastpages-blog/about/">About Me</a><a class="page-link" href="/fastpages-blog/search/">Search</a><a class="page-link" href="/fastpages-blog/categories/">Tags</a></div>
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -126,7 +126,7 @@ window.onload = wrap_img;
     
       <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
       
-        <a class="category-tags-link" href="/fastpages-blog/categories/#data-science">data-science</a>
+        <a class="category-tags-link" href="/categories/#data-science">data-science</a>
         
       
       </p>
@@ -135,64 +135,21 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <ul id="toc" class="section-nav">
-<li class="toc-entry toc-h2"><a href="#motivation">Motivation</a>
-<ul>
-<li class="toc-entry toc-h3"><a href="#when-ab-test-is-not-an-option">When A/B test is not an option</a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h2"><a href="#quasi-experiments">Quasi Experiments</a></li>
-<li class="toc-entry toc-h2"><a href="#interrupted-time-series-its">Interrupted Time Series (ITS)</a>
-<ul>
-<li class="toc-entry toc-h3"><a href="#counterfactual">Counterfactual</a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h2"><a href="#a-practical-example">A practical example</a>
-<ul>
-<li class="toc-entry toc-h3"><a href="#dataset">Dataset</a></li>
-<li class="toc-entry toc-h3"><a href="#dataset-preparation">Dataset preparation</a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h2"><a href="#naive-solution">Naive solution</a>
-<ul>
-<li class="toc-entry toc-h3"><a href="#problems-with-naive-approach">Problems with naive approach</a>
-<ul>
-<li class="toc-entry toc-h4"><a href="#lets-first-check-for-the-normality-of-residuals">Let’s first check for the normality of residuals:</a></li>
-<li class="toc-entry toc-h4"><a href="#checking-independence-of-observations">Checking independence of observations:</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-entry toc-h2"><a href="#autoregressive-model-solution">Autoregressive model solution</a>
-<ul>
-<li class="toc-entry toc-h4"><a href="#autocorrelation">Autocorrelation</a></li>
-<li class="toc-entry toc-h4"><a href="#partial-autocorrelation">Partial Autocorrelation</a></li>
-<li class="toc-entry toc-h3"><a href="#model-selection">Model selection</a></li>
-<li class="toc-entry toc-h3"><a href="#arima">ARIMA</a></li>
-<li class="toc-entry toc-h3"><a href="#arima-residual-analysis">ARIMA residual analysis</a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h2"><a href="#summary">Summary</a></li>
-<li class="toc-entry toc-h2"><a href="#references">References</a></li>
-</ul>
+    
 <picture>
-    <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/its-card.webp" class="lazyload" alt="Interrupted Time Series Analysis example" width="100%"></source>
-    <img src="/fastpages-blog/images/posts/its/its-card.png" alt="Interrupted Time Series Analysis example" width="100%">
+    <source type="image/webp" data-srcset="/images/posts/its/its-card.webp" class="lazyload" alt="Interrupted Time Series Analysis example" width="100%" />
+    <img src="/images/posts/its/its-card.png" alt="Interrupted Time Series Analysis example" width="100%" />
 </picture>
 
-<h2 id="motivation">
-<a class="anchor" href="#motivation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Motivation</h2>
-
-<h3 id="when-ab-test-is-not-an-option">
-<a class="anchor" href="#when-ab-test-is-not-an-option" aria-hidden="true"><span class="octicon octicon-link"></span></a>When A/B test is not an option</h3>
+<h2 id="when-ab-test-is-not-an-option">When A/B test is not an option</h2>
 
 <p>The gold standard for statistically asserting the effectiveness of an intervention is the randomized controlled experiment and its simplified online variant: the A/B test.</p>
 
-<hr>
+<hr />
 
 <p>📝 During an A/B test there are two almost identical versions of a product, simultaneously running, that only differ by the hypothesis you want to test ( i.e can a red call to action button convert more than a blue one? ). Users are <strong>randomly</strong> chosen to experience one (and only one) of the two versions while the experiment is active.</p>
 
-<hr>
+<hr />
 
 <p>They are easy to understand, easy to setup (great free <a href="https://optimize.google.com/optimize/home/">tools</a> easily available) and when correctly designed they rule out any covariate differences between the groups.</p>
 
@@ -216,12 +173,11 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h2 id="quasi-experiments">
-<a class="anchor" href="#quasi-experiments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quasi Experiments</h2>
+<h2 id="quasi-experiments">Quasi Experiments</h2>
 
 <picture>
-    <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/the-gold-standard-meme.webp" class="lazyload" alt="gold standard meme" width="67%"></source>
-    <img data-src="/fastpages-blog/images/posts/its/the-gold-standard-meme.jpg" class="lazyload" alt="gold standard meme" width="67%">
+    <source type="image/webp" data-srcset="/images/posts/its/the-gold-standard-meme.webp" class="lazyload" alt="gold standard meme" width="67%" />
+    <img data-src="/images/posts/its/the-gold-standard-meme.jpg" class="lazyload" alt="gold standard meme" width="67%" />
 </picture>
 
 <p>If you can’t do an A/B test then the second to best alternative are quasi experiments <a href="#ref-1">[1]</a>.</p>
@@ -230,17 +186,16 @@ window.onload = wrap_img;
 
 <p>There are some scenarios, like some described in the previous section, where having a control group in parallel to a test group is just not possible, and this is when Interrupted Times Series comes in very handy.</p>
 
-<h2 id="interrupted-time-series-its">
-<a class="anchor" href="#interrupted-time-series-its" aria-hidden="true"><span class="octicon octicon-link"></span></a>Interrupted Time Series (ITS)</h2>
+<h2 id="interrupted-time-series-its">Interrupted Time Series (ITS)</h2>
 
 <p>Interrupted time series (ITS) is a method of statistical analysis involving tracking a period before and after a intervention at a known point in time to assess the intervention’s effects <em>within a single group/population</em>. The time series refers to the data over the period, while the interruption is the intervention, which is a controlled external influence or set of influences. Effects of the intervention are evaluated by changes in the level and slope of the time series and statistical significance of the intervention parameters<a href="#ref-2">[2]</a>. The more observations you have before and after the intervention, the more robust your model will be (typically). Because the evaluation is based on observing a single population over time, the ITS design is free from problems due to between-group difference but are susceptible to time-varying confounders like other interventions occurring around the time of the intervention that may also affect the outcome<a href="#ref-3">[3]</a>.</p>
 
 <picture>
-    <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/its1.webp" class="lazyload" alt="Interrupted Time Series analysis example" width="100%" style="box-shadow: 5px 5px 10px grey;"></source>
-    <img data-src="/fastpages-blog/images/posts/its/its1.jpg" class="lazyload" alt="Interrupted Time Series analysis example" width="100%" style="box-shadow: 5px 5px 10px grey;">
+    <source type="image/webp" data-srcset="/images/posts/its/its1.webp" class="lazyload" alt="Interrupted Time Series analysis example" width="100%" style="box-shadow: 5px 5px 10px grey;" />
+    <img data-src="/images/posts/its/its1.jpg" class="lazyload" alt="Interrupted Time Series analysis example" width="100%" style="box-shadow: 5px 5px 10px grey;" />
 </picture>
 
-<hr>
+<hr />
 
 <p>👍 <span style="text-decoration: underline">Strengths of Interrupted Time Series</span> include the ability to control for secular trends
 in the data (unlike a 2-period before-and-after $t$-test), ability to
@@ -253,7 +208,7 @@ for a minimum of 8 time periods before and 8 after an intervention to evaluate c
 independent impact of separate components of a program that
 are implemented close together in time, and existence of a suitable control population.</p>
 
-<hr>
+<hr />
 
 <p>In mathematical terms, it means that the time series equation $(1)$ includes four key coefficients:</p>
 
@@ -265,63 +220,59 @@ are implemented close together in time, and existence of a suitable control popu
 
 <p>$Y$ is the outcome variable;</p>
 
-<p>$T$ is a continuous variable which indicates the time passed from start of the observational period;<br></p>
+<p>$T$ is a continuous variable which indicates the time passed from start of the observational period;<br /></p>
 
-<p>$D$ is a dummy variable indicating observation collected before ($D=0$) or after ($D=1$) the intervention;<br></p>
+<p>$D$ is a dummy variable indicating observation collected before ($D=0$) or after ($D=1$) the intervention;<br /></p>
 
-<p>$P$ is a continuous variable indicating time passed since the intervention has occurred (before intervention has occurred $P$is equal to $0$);<br></p>
+<p>$P$ is a continuous variable indicating time passed since the intervention has occurred (before intervention has occurred $P$is equal to $0$);<br /></p>
 
 <p>With $\epsilon$ representing a zero centered gaussian random error.</p>
 
-<h3 id="counterfactual">
-<a class="anchor" href="#counterfactual" aria-hidden="true"><span class="octicon octicon-link"></span></a>Counterfactual</h3>
+<h3 id="counterfactual">Counterfactual</h3>
 
 <picture>
-    <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/matrix-red-blue-pill.webp" class="lazyload" alt="matrix blue/red pill choice of reality" width="100%"></source>
-    <img data-src="/fastpages-blog/images/posts/its/matrix-red-blue-pill.png" class="lazyload" alt="matrix blue/red pill choice of reality" width="100%">
+    <source type="image/webp" data-srcset="/images/posts/its/matrix-red-blue-pill.webp" class="lazyload" alt="matrix blue/red pill choice of reality" width="100%" />
+    <img data-src="/images/posts/its/matrix-red-blue-pill.png" class="lazyload" alt="matrix blue/red pill choice of reality" width="100%" />
 </picture>
 <figcaption><i>What would have happened had Neo chosen the blue pill?</i></figcaption>
 
 <p>In an ITS it is important to understand the counterfactual. The counterfactual refers to what it would have occurred to Y, had the policy intervention not happened.</p>
 
-<hr>
+<hr />
 
 <p>📝Counterfactuals are simply ways of comparing what happens given a change, versus what should have happened had some change not occurred in the first place.</p>
 
-<hr>
+<hr />
 
 <p>In a randomized trial or A/B test we know the counterfactual average outcome because the experiment withheld the intervention from the control group (which by randomization is somewhat the same as the intervention group). A critical assumption in ITS is that the outcome of interest trend would remain unchanged in the absence of intervention.</p>
 
-<h2 id="a-practical-example">
-<a class="anchor" href="#a-practical-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>A practical example</h2>
+<h2 id="a-practical-example">A practical example</h2>
 
 <p>Bob runs a large and successful blog on personal finance. During a webinar he learns that making his web content load faster could reduce its <a href="https://en.wikipedia.org/wiki/Bounce_rate">bounce rate</a> and therefore decides to sign up for a <a href="https://en.wikipedia.org/wiki/Content_delivery_network">CDN</a> service. It’s been 6 months since he added a CDN to his blog and he wants to know if the investiment he did reduced the bounce rate.</p>
 
-<h3 id="dataset">
-<a class="anchor" href="#dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset</h3>
+<h3 id="dataset">Dataset</h3>
 
-<p>Bob provides us with <a href="/fastpages-blog/assets/data/its/raw_data.csv">💾 24 weeks of data</a> before adding the CDN and 24 weeks after it (intervention). Therefore, weeks 1 to 24 have a bouncing rate before intervention and weeks 25 to 48 after it.</p>
+<p>Bob provides us with <a href="/assets/data/its/raw_data.csv">💾 24 weeks of data</a> before adding the CDN and 24 weeks after it (intervention). Therefore, weeks 1 to 24 have a bouncing rate before intervention and weeks 25 to 48 after it.</p>
 
 <p align="center">
     <picture>
-        <img data-src="/fastpages-blog/images/posts/its/data_viz1.svg" class="lazyload" alt="ploting data collected" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <img data-src="/images/posts/its/data_viz1.svg" class="lazyload" alt="ploting data collected" width="100%" style="box-shadow: 5px 5px 10px grey;" />
     </picture>
 </p>
 
 <p>Visually, it looks like after enabling the CDN the bounce rate decreased, but by how much, and does it have statistical significance? To answer this question using interrupted time series analysis, we first need to prepare our data.</p>
 
-<h3 id="dataset-preparation">
-<a class="anchor" href="#dataset-preparation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset preparation</h3>
+<h3 id="dataset-preparation">Dataset preparation</h3>
 
-<p>Using equation \eqref{eq:its} notation we <a href="/fastpages-blog/assets/data/its/enriched_data.csv">💾 enrich this data</a> with values for columns $D$ ($0$ = before intervention, $1$ after) and $P$ (number of weeks since intervention started):</p>
+<p>Using equation \eqref{eq:its} notation we <a href="/assets/data/its/enriched_data.csv">💾 enrich this data</a> with values for columns $D$ ($0$ = before intervention, $1$ after) and $P$ (number of weeks since intervention started):</p>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: center">Bouncing rate<br>(Y)</th>
-      <th style="text-align: center">Week <br>(T)</th>
-      <th style="text-align: center">Intervention<br>(D)</th>
-      <th style="text-align: center">Intervention week<br>(P)</th>
+      <th style="text-align: center">Bouncing rate<br />(Y)</th>
+      <th style="text-align: center">Week <br />(T)</th>
+      <th style="text-align: center">Intervention<br />(D)</th>
+      <th style="text-align: center">Intervention week<br />(P)</th>
     </tr>
   </thead>
   <tbody>
@@ -382,8 +333,7 @@ are implemented close together in time, and existence of a suitable control popu
   </tbody>
 </table>
 
-<h2 id="naive-solution">
-<a class="anchor" href="#naive-solution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Naive solution</h2>
+<h2 id="naive-solution">Naive solution</h2>
 
 <p>Let’s implement an ordinary least squares (OLS) regression using <code class="language-plaintext highlighter-rouge">statsmodels</code> to measure the impact of our intervention:</p>
 
@@ -482,18 +432,17 @@ is statistically significant ($P&gt;|t|$ is virtually zero).</p>
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/data_trends1.webp" class="lazyload" alt="Interrupted Time Series using OLS with counterfactual and pos-intervention plots" width="100%" style="box-shadow: 5px 5px 10px grey;"></source>
-        <img data-src="/fastpages-blog/images/posts/its/data_trends1.png" class="lazyload" alt="Interrupted Time Series using OLS with counterfactual and pos-intervention plots" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <source type="image/webp" data-srcset="/images/posts/its/data_trends1.webp" class="lazyload" alt="Interrupted Time Series using OLS with counterfactual and pos-intervention plots" width="100%" style="box-shadow: 5px 5px 10px grey;" />
+        <img data-src="/images/posts/its/data_trends1.png" class="lazyload" alt="Interrupted Time Series using OLS with counterfactual and pos-intervention plots" width="100%" style="box-shadow: 5px 5px 10px grey;" />
     </picture>
 </p>
 
-<h3 id="problems-with-naive-approach">
-<a class="anchor" href="#problems-with-naive-approach" aria-hidden="true"><span class="octicon octicon-link"></span></a>Problems with naive approach</h3>
+<h3 id="problems-with-naive-approach">Problems with naive approach</h3>
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/autocorrelation_future_meme.webp" class="lazyload" alt="predicts the future forgets temporal autocorrelation meme" width="67%"></source>
-        <img data-src="/fastpages-blog/images/posts/its/autocorrelation_future_meme.jpg" class="lazyload" alt="predicts the future forgets temporal autocorrelation meme" width="67%">
+        <source type="image/webp" data-srcset="/images/posts/its/autocorrelation_future_meme.webp" class="lazyload" alt="predicts the future forgets temporal autocorrelation meme" width="67%" />
+        <img data-src="/images/posts/its/autocorrelation_future_meme.jpg" class="lazyload" alt="predicts the future forgets temporal autocorrelation meme" width="67%" />
     </picture>
 </p>
 
@@ -504,8 +453,7 @@ is statistically significant ($P&gt;|t|$ is virtually zero).</p>
   <li>Residuals follow a normal distribution.</li>
 </ul>
 
-<h4 id="lets-first-check-for-the-normality-of-residuals">
-<a class="anchor" href="#lets-first-check-for-the-normality-of-residuals" aria-hidden="true"><span class="octicon octicon-link"></span></a>Let’s first check for the normality of residuals:</h4>
+<h4 id="lets-first-check-for-the-normality-of-residuals">Let’s first check for the normality of residuals:</h4>
 
 <p>We can apply the <a href="https://en.wikipedia.org/wiki/Jarque%E2%80%93Bera_test">Jarque-Bera test</a> on residuals to checks whether their skewness and kurtosis match a normal distribution ($H_0$: residual distribution follows a normal distribution). Our <code class="language-plaintext highlighter-rouge">statsmodels</code> OLS <a href="#ols-output">summary output</a> shows a <code class="language-plaintext highlighter-rouge">Prob(JB): 0.369</code> which for a standard $\alpha$ level of 0.05 doesn’t allow us discard null
 hypothesis ($H_0$).</p>
@@ -517,8 +465,8 @@ hypothesis ($H_0$).</p>
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/ols_res_kde.webp" class="lazyload" alt="ols residual distribution plot" width="80%" style="box-shadow: 5px 5px 10px grey;"></source>
-        <img data-src="/fastpages-blog/images/posts/its/ols_res_kde.jpg" class="lazyload" alt="ols residual distribution plot" width="80%" style="box-shadow: 5px 5px 10px grey;">
+        <source type="image/webp" data-srcset="/images/posts/its/ols_res_kde.webp" class="lazyload" alt="ols residual distribution plot" width="80%" style="box-shadow: 5px 5px 10px grey;" />
+        <img data-src="/images/posts/its/ols_res_kde.jpg" class="lazyload" alt="ols residual distribution plot" width="80%" style="box-shadow: 5px 5px 10px grey;" />
     </picture>
 </p>
 
@@ -526,8 +474,7 @@ hypothesis ($H_0$).</p>
 
 <p>Overall, the assumption of normality of residuals can’t be convincingly refuted. ✅</p>
 
-<h4 id="checking-independence-of-observations">
-<a class="anchor" href="#checking-independence-of-observations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Checking independence of observations:</h4>
+<h4 id="checking-independence-of-observations">Checking independence of observations:</h4>
 
 <p>The <a href="https://en.wikipedia.org/wiki/Durbin%E2%80%93Watson_statistic">Durbin-Watson statistic</a> test if the residuals are correlated with its immediate predecessor, that is, if they have an autocorrelation at lag 1 or $AR(1)$. Its value ranges from 0 to 4 and values smaller than 1.5 indicate a positive autocorrelation, while values greater than 2.5 signal a negative autocorrelation.</p>
 
@@ -555,20 +502,19 @@ hypothesis ($H_0$).</p>
 
 <p align="center">
     <picture>
-        <img data-src="/fastpages-blog/images/posts/its/data_viz_residuals.svg" class="lazyload" alt="ols visualization of residuals" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <img data-src="/images/posts/its/data_viz_residuals.svg" class="lazyload" alt="ols visualization of residuals" width="100%" style="box-shadow: 5px 5px 10px grey;" />
     </picture>
 </p>
 
 <p>Notice how residuals above/below zero have most points temporally close to it also above/below zero as well, which goes against the independence of observations assumption of OLS ❌.</p>
 
-<hr>
+<hr />
 
 <p>📝In practice when analyzing time series data the presence of autocorrelation is the rule instead of the exception since in general the factors that contributed to a given observation tend to persist for a while.</p>
 
-<hr>
+<hr />
 
-<h2 id="autoregressive-model-solution">
-<a class="anchor" href="#autoregressive-model-solution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Autoregressive model solution</h2>
+<h2 id="autoregressive-model-solution">Autoregressive model solution</h2>
 
 <p>The autoregressive model specifies that each observation depends linearly on previous observations.</p>
 
@@ -588,8 +534,7 @@ hypothesis ($H_0$).</p>
 
 <p>$\epsilon_t$: white noise ( $\mathcal{N}(0, \sigma²)$ ) at time $t$.</p>
 
-<h4 id="autocorrelation">
-<a class="anchor" href="#autocorrelation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Autocorrelation</h4>
+<h4 id="autocorrelation">Autocorrelation</h4>
 
 <p>To assess how much an observation correlates with past observations it is useful to do an autocorrelation plot as shown below:</p>
 
@@ -599,13 +544,12 @@ hypothesis ($H_0$).</p>
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/autocorrelation.webp" class="lazyload" alt="autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;"></source>
-        <img data-src="/fastpages-blog/images/posts/its/autocorrelation.png" class="lazyload" alt="autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <source type="image/webp" data-srcset="/images/posts/its/autocorrelation.webp" class="lazyload" alt="autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;" />
+        <img data-src="/images/posts/its/autocorrelation.png" class="lazyload" alt="autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;" />
     </picture>
 </p>
 
-<h4 id="partial-autocorrelation">
-<a class="anchor" href="#partial-autocorrelation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Partial Autocorrelation</h4>
+<h4 id="partial-autocorrelation">Partial Autocorrelation</h4>
 
 <p>The partial autocorrelation at lag $p$ is the correlation that results after removing the effect of any correlations due to the terms at shorter lags.</p>
 
@@ -615,20 +559,18 @@ hypothesis ($H_0$).</p>
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/partial_autocorrelation.webp" class="lazyload" alt="partial autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;"></source>
-        <img data-src="/fastpages-blog/images/posts/its/partial_autocorrelation.png" class="lazyload" alt="partial autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <source type="image/webp" data-srcset="/images/posts/its/partial_autocorrelation.webp" class="lazyload" alt="partial autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;" />
+        <img data-src="/images/posts/its/partial_autocorrelation.png" class="lazyload" alt="partial autocorrelation plot" width="100%" style="box-shadow: 5px 5px 10px grey;" />
     </picture>
 </p>
 
-<h3 id="model-selection">
-<a class="anchor" href="#model-selection" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model selection</h3>
+<h3 id="model-selection">Model selection</h3>
 
 <p>The theory states that in an autoregressive model its autocorrelation plot should depict an exponential decay and the number of lags $p$
 should be taken from the partial autocorrelation chart using its $p$ most relevant lags. Applying the theory to our plots above, we conclude that
 our model is autoregressive of lag 1 also known as AR(1).</p>
 
-<h3 id="arima">
-<a class="anchor" href="#arima" aria-hidden="true"><span class="octicon octicon-link"></span></a>ARIMA</h3>
+<h3 id="arima">ARIMA</h3>
 
 <p>In statistics <a href="https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average">ARIMA</a> stands for <strong>autoregressive integrated moving average</strong> model and as can be inferred by the name AR models are as especial case of ARIMA therefore AR(1) is equivalent to ARIMA(1,0,0).</p>
 
@@ -719,15 +661,14 @@ is statistically significant ($P&gt;|t| = 4.4\% $, less than our $\alpha = 5\% $
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/data_trends2.webp" class="lazyload" alt="arima pre and post intervention modeling with counterfactual" width="100%" style="box-shadow: 5px 5px 10px grey;"></source>
-        <img data-src="/fastpages-blog/images/posts/its/data_trends2.png" class="lazyload" alt="arima pre and post intervention modeling with counterfactual" width="100%" style="box-shadow: 5px 5px 10px grey;">
+        <source type="image/webp" data-srcset="/images/posts/its/data_trends2.webp" class="lazyload" alt="arima pre and post intervention modeling with counterfactual" width="100%" style="box-shadow: 5px 5px 10px grey;" />
+        <img data-src="/images/posts/its/data_trends2.png" class="lazyload" alt="arima pre and post intervention modeling with counterfactual" width="100%" style="box-shadow: 5px 5px 10px grey;" />
     </picture>
 </p>
 
 <p>We can clearly see that the ARIMA(1, 0, 0) model fits our dataset better than the OLS model.</p>
 
-<h3 id="arima-residual-analysis">
-<a class="anchor" href="#arima-residual-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>ARIMA residual analysis</h3>
+<h3 id="arima-residual-analysis">ARIMA residual analysis</h3>
 
 <p>The summary of our autoregressive model shows a <code class="language-plaintext highlighter-rouge">Prob(JB): 0.93</code> which is compatible with the null-hypothesis of normaly distributed residuals. ✅</p>
 
@@ -751,15 +692,14 @@ is statistically significant ($P&gt;|t| = 4.4\% $, less than our $\alpha = 5\% $
 
 <p align="center">
     <picture>
-        <source type="image/webp" data-srcset="/fastpages-blog/images/posts/its/qqplot-sidebyside.webp" class="lazyload" alt="qqplots" width="80%" style="box-shadow: 5px 5px 10px grey;"></source>
-        <img data-src="/fastpages-blog/images/posts/its/qqplot-sidebyside.jpg" class="lazyload" alt="qqplots" width="80%" style="box-shadow: 5px 5px 10px grey;">
+        <source type="image/webp" data-srcset="/images/posts/its/qqplot-sidebyside.webp" class="lazyload" alt="qqplots" width="80%" style="box-shadow: 5px 5px 10px grey;" />
+        <img data-src="/images/posts/its/qqplot-sidebyside.jpg" class="lazyload" alt="qqplots" width="80%" style="box-shadow: 5px 5px 10px grey;" />
     </picture>
 </p>
 
 <p>We may observe that the ARIMA(1,0,0) model residuals not only are in general normally distributed as they fit better than the OLS model the theoretical quantiles. ✅</p>
 
-<h2 id="summary">
-<a class="anchor" href="#summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summary</h2>
+<h2 id="summary">Summary</h2>
 
 <p>A/B tests are a the most powerful and trustworthy method to do measure the impact of modifications/changes even before they are fully implemented, which is why they are so widely used.</p>
 
@@ -773,8 +713,7 @@ is statistically significant ($P&gt;|t| = 4.4\% $, less than our $\alpha = 5\% $
 
 <p><span id="chegou-no-fim"></span></p>
 
-<h2 id="references">
-<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+<h2 id="references">References</h2>
 
 <p><a name="ref-1" href="https://shopify.engineering/using-quasi-experiments-counterfactuals" target="blank" rel="noopener">[1] Shopify Engineering: How to Use Quasi-experiments and Counterfactuals to Build Great Products.</a></p>
 
@@ -790,22 +729,22 @@ is statistically significant ($P&gt;|t| = 4.4\% $, less than our $\alpha = 5\% $
         theme="github-light"
         crossorigin="anonymous"
         async>
-</script><a class="u-url" href="/fastpages-blog/interrupted-time-series-python-part-I" hidden></a>
+</script><a class="u-url" href="/interrupted-time-series-python-part-I" hidden></a>
 </article>
-<script src="/fastpages-blog/assets/js/lazysizes.min.js" async></script>
+<script src="/assets/js/lazysizes.min.js" async></script>
 
       </div>
     </main><footer class="site-footer h-card">
-  <data class="u-url" href="/fastpages-blog/"></data>
+  <data class="u-url" href="/"></data>
 
   <div class="wrapper">
 
     <div class="footer-col-wrapper">
       <div class="footer-col">
         <p class="feed-subscribe">
-          <a href="/fastpages-blog/feed.xml">
+          <a href="/feed.xml">
             <svg class="svg-icon orange">
-              <use xlink:href="/fastpages-blog/assets/minima-social-icons.svg#rss"></use>
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
             </svg><span>Subscribe</span>
           </a>
         </p>
@@ -815,7 +754,7 @@ is statistically significant ($P&gt;|t| = 4.4\% $, less than our $\alpha = 5\% $
       </div>
     </div>
 
-    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/xboard" target="_blank" title="xboard"><svg class="svg-icon grey"><use xlink:href="/fastpages-blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/xboard_" target="_blank" title="xboard_"><svg class="svg-icon grey"><use xlink:href="/fastpages-blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/xboard" target="_blank" title="xboard"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/xboard_" target="_blank" title="xboard_"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
 
   </div>
