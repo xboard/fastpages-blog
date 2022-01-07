@@ -4,7 +4,7 @@ title: About Me
 permalink: /about/
 ---
 
-
+Hey 👋, I am Flavio Regis de Arruda.
 
 
 <picture>
@@ -12,6 +12,5 @@ permalink: /about/
   <source srcset="{{site.baseurl}}/images/eu-nit6.png" type="image/png" alt="Me, according to a neural network"> 
   <img src="{{site.baseurl}}/images/eu-nit6.png" alt="Me, according to a neural network">
 </picture>
-
-
+<figcaption>Me, according to some neural networks</figcaption>
 
