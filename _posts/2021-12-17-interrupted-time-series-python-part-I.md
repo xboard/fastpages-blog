@@ -5,7 +5,7 @@ permalink: interrupted-time-series-python-part-I
 date: 2022-01-01 06:00:00
 title: "Interrupted Time Series (ITS) in Python"
 description: "Interrupted Time Series (ITS) analysis using Python and statsmodels"
-image: https://www.xboard.dev/assets/images/its/its-card2.jpg
+image: https://www.xboard.dev/images/posts/its/its-card2.jpg
 categories: [data-science]
 comments: true
 ---
