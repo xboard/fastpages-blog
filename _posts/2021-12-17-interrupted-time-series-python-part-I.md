@@ -1,7 +1,7 @@
 ---
 toc: false
 layout: post
-permalink: interrupted-time-series-python-part-I
+permalink: /:title
 date: 2022-01-01 06:00:00
 title: "Interrupted Time Series (ITS) in Python"
 description: "Interrupted Time Series (ITS) analysis using Python and statsmodels"
