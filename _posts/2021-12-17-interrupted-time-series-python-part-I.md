@@ -1,5 +1,5 @@
 ---
-toc: true
+toc: false
 layout: post
 permalink: interrupted-time-series-python-part-I
 date: 2022-01-01 06:00:00
@@ -19,9 +19,8 @@ comments: true
 </picture>
 
 
-## Motivation
 
-### When A/B test is not an option
+## When A/B test is not an option
 
 The gold standard for statistically asserting the effectiveness of an intervention is the randomized controlled experiment and its simplified online variant: the A/B test.
 
