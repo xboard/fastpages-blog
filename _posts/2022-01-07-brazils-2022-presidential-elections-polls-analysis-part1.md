@@ -39,6 +39,10 @@ layout: notebook
 </li>
 <li><a href="https://www.tse.jus.br/eleitor/estatisticas-de-eleitorado/estatistica-do-eleitorado-por-sexo-e-faixa-etaria">TSE: Voters statistics by sex and age</a></li>
 </ul>
+<h3 id="Dashboard">Dashboard<a class="anchor-link" href="#Dashboard"> </a></h3><ul>
+<li><a href="https://chance-lula-ganhar-1o-turno.github.io/">App</a></li>
+<li><a href="https://github.com/chance-lula-ganhar-1o-turno">Repositório: Chance de Lula ganhar no primeiro turno</a></li>
+</ul>
 
 </div>
 </div>
