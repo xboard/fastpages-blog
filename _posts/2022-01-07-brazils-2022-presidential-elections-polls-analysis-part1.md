@@ -1392,14 +1392,20 @@ dtype: float64</pre>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">dirichlet_model</span><span class="p">:</span>
+    <span class="c1"># november_prior = pm.Dirichlet(</span>
+    <span class="c1">#     &quot;november_prior&quot;,</span>
+    <span class="c1">#     # Lula, BrancosNulosNaoSabem, Demais candidatos</span>
+    <span class="c1">#     # a=pd.array([6080, 1517, 7387]).astype(&quot;float32&quot;)</span>
+    <span class="c1">#     # a=pd.array([1.0, 1.0, 1.0]).astype(&quot;float32&quot;),</span>
+    <span class="c1"># )</span>
+    
     <span class="n">november_prior</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span>
         <span class="s2">&quot;november_prior&quot;</span><span class="p">,</span>
-        <span class="c1"># Lula, BrancosNulosNaoSabem, Demais candidatos</span>
-        <span class="c1"># a=pd.array([6080, 1517, 7387]).astype(&quot;float32&quot;)</span>
-        <span class="n">a</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+        <span class="n">a</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">202</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">246</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
     <span class="p">)</span>
+    
     <span class="n">december_like</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Multinomial</span><span class="p">(</span>
-        <span class="s2">&quot;december_like&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">16907</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">november_prior</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">7376</span><span class="p">,</span> <span class="mi">1953</span><span class="p">,</span> <span class="mi">7578</span><span class="p">])</span>
+        <span class="s2">&quot;december_like&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">16907</span><span class="o">//</span><span class="mi">30</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">november_prior</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">7376</span><span class="o">//</span><span class="mi">30</span><span class="p">,</span> <span class="mi">1953</span><span class="o">//</span><span class="mi">30</span><span class="p">,</span> <span class="mi">7578</span><span class="o">//</span><span class="mi">30</span><span class="p">])</span>
     <span class="p">)</span>
     
 </pre></div>
@@ -1464,7 +1470,7 @@ NUTS: [november_prior]
             }
         </style>
       <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [12000/12000 00:14<00:00 Sampling 2 chains, 0 divergences]
+      100.00% [12000/12000 00:05<00:00 Sampling 2 chains, 0 divergences]
     </div>
     
 </div>
@@ -1474,7 +1480,7 @@ NUTS: [november_prior]
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>Sampling 2 chains for 1_000 tune and 5_000 draw iterations (2_000 + 10_000 draws total) took 15 seconds.
+<pre>Sampling 2 chains for 1_000 tune and 5_000 draw iterations (2_000 + 10_000 draws total) took 6 seconds.
 </pre>
 </div>
 </div>
@@ -1498,7 +1504,7 @@ NUTS: [november_prior]
             }
         </style>
       <progress value='10000' class='' max='10000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [10000/10000 00:12<00:00]
+      100.00% [10000/10000 00:07<00:00]
     </div>
     
 </div>
@@ -1532,13 +1538,13 @@ NUTS: [november_prior]
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;december_like&#39;: array([[7293., 1951., 7663.],
-       [7340., 1949., 7618.],
-       [7336., 2015., 7556.],
+<pre>{&#39;december_like&#39;: array([[243.,  56., 263.],
+       [220.,  63., 279.],
+       [254.,  63., 245.],
        ...,
-       [7331., 1957., 7619.],
-       [7350., 1981., 7576.],
-       [7408., 1912., 7587.]])}
+       [225.,  65., 272.],
+       [227.,  56., 279.],
+       [234.,  60., 268.]])}
 </pre>
 </div>
 </div>
@@ -1548,7 +1554,7 @@ NUTS: [november_prior]
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([7375.0836, 1953.2128, 7578.7036])</pre>
+<pre>array([236.6827,  61.2075, 264.1098])</pre>
 </div>
 
 </div>
@@ -1616,7 +1622,7 @@ NUTS: [november_prior]
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.1207</pre>
+<pre>0.1552</pre>
 </div>
 
 </div>
@@ -1634,16 +1640,15 @@ NUTS: [november_prior]
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">probs</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
-    <span class="k">with</span> <span class="n">dirichlet_model</span><span class="p">:</span>
-        <span class="n">dirichlet_trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span> <span class="c1"># 100K samples</span>
-        <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span>
-                <span class="n">dirichlet_trace</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="mi">777</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="n">lula</span> <span class="o">=</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;december_like&#39;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">demais</span> <span class="o">=</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;december_like&#39;</span><span class="p">][:,</span> <span class="mi">2</span><span class="p">]</span>
-    <span class="n">probs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">lula</span> <span class="o">&gt;</span> <span class="n">demais</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># for x in range(30):</span>
+<span class="c1">#     with dirichlet_model:</span>
+<span class="c1">#         dirichlet_trace = pm.sample(5000) # 100K samples</span>
+<span class="c1">#         ppc = pm.sample_posterior_predictive(</span>
+<span class="c1">#                 dirichlet_trace, random_seed=777,</span>
+<span class="c1">#         )</span>
+<span class="c1">#     lula = ppc[&#39;december_like&#39;][:, 0]</span>
+<span class="c1">#     demais = ppc[&#39;december_like&#39;][:, 2]</span>
+<span class="c1">#     probs.append((lula &gt; demais).mean())</span>
 </pre></div>
 
     </div>
