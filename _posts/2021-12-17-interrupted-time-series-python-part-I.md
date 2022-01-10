@@ -141,7 +141,7 @@ Visually, it looks like after enabling the CDN the bounce rate decreased, but by
 
 ### Dataset preparation
 
-Using equation \eqref{eq:its} notation we [💾 enrich this data]({{ basedata }}/enriched_data.csv) with values for columns $D$ ($0$ = before intervention, $1$ after) and $P$ (number of weeks since intervention started):
+Using equation (1) notation we [💾 enrich this data]({{ basedata }}/enriched_data.csv) with values for columns $D$ ($0$ = before intervention, $1$ after) and $P$ (number of weeks since intervention started):
 
 | Bouncing rate<br/>(Y) | Week <br/>(T) | Intervention<br/>(D) | Intervention week<br/>(P) |
 | :-------------------: | :-----------: | :------------------: | :-----------------: |
