@@ -1,3 +1,7 @@
+# This Repo and blog Is Deprecated. Current blog repo can be [seen here](https://github.com/xboard/quarto-blog).
+
+The new blog can be [seen here](https://xboard.dev).
+
 [//]: # (This template replaces README.md when someone creates a new repo with the fastpages template.)
 
 ![](https://github.com/xboard/fastpages-blog/workflows/CI/badge.svg) 
